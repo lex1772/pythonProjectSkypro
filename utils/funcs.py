@@ -15,10 +15,30 @@ def load_executed_operations():
             executed_operations.append(data[i])
     return executed_operations
 
-def date_correcting_and_sorting():
+
+def data_correcting_and_sorting():
     data = load_executed_operations()
     for element in data:
         year, month, day = element['date'][:10].split('-')
         element['date'] = f'{day}.{month}.{year}'
     sorted_data = sorted(data, key=lambda date: datetime.strptime(date['date'], '%d.%m.%Y'), reverse=True)
     return sorted_data
+
+
+def masking_digits(number):
+    if "Счет" in number:
+        return f'**{number[-4:]}'
+    else:
+        data_list = number.split()
+        card_number = data_list[-1]
+        list_card_number = list(card_number)
+        for i in range(6, 12):
+            list_card_number[i] = '*'
+        card_number = []
+        for i in range(0, len(list_card_number), 4):
+            card_number.append(list_card_number[i:i+4])
+        correct_card_number = ''
+        for i in range(len(card_number)):
+            numbers = "".join(card_number[i])
+            correct_card_number += numbers + " "
+        return correct_card_number[:-1]
