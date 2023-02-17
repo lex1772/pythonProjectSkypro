@@ -22,5 +22,3 @@ def date_correcting_and_sorting():
         element['date'] = f'{day}.{month}.{year}'
     sorted_data = sorted(data, key=lambda date: datetime.strptime(date['date'], '%d.%m.%Y'), reverse=True)
     return sorted_data
-
-print(*date_correcting_and_sorting(), sep="\n")
